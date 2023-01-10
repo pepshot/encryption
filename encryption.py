@@ -215,6 +215,15 @@ class WindowTextEncrypt(QMainWindow):
                 new_message = support_func.enc_Bin_code(key, text)
             elif cipher == 'Транспонирование':
                 new_message = support_func.enc_Transponir(key, text)
+            elif cipher == 'Авторский шифр':
+                for i in text:
+                    if i.isalpha() and (65 <= ord(i) <= 90 or 97 <= ord(i) <= 122):
+                        new_message = support_func.enc_Cesar_en(key, text)
+                        break
+                    if i.isalpha() and (1040 <= ord(i) <= 1071 or 1072 <= ord(i) <= 1103 or ord(i) in [1105, 1025]):
+                        new_message = support_func.enc_Cesar_ru(key, text)
+                        break
+                new_message = support_func.enc_Transponir(key, new_message)
 
             con = sqlite3.connect('encryption.db')
 
@@ -305,6 +314,16 @@ class WindowTextNotEncrypt(QMainWindow):
             new_message = support_func.not_enc_Bin_code(key, text)
         elif cipher == 'Транспонирование':
             new_message = support_func.not_enc_Transponir(key, text)
+        elif cipher == 'Авторский шифр':
+            new_message = support_func.not_enc_Transponir(key, text)
+            for i in text:
+                if i.isalpha() and (65 <= ord(i) <= 90 or 97 <= ord(i) <= 122):
+                    new_message = support_func.not_enc_Cesar_en(key, new_message)
+                    break
+                if i.isalpha() and (1040 <= ord(i) <= 1071 or 1072 <= ord(i) <= 1103 or ord(i) in [1105, 1025]):
+                    new_message = support_func.not_enc_Cesar_ru(key, new_message)
+                    break
+
 
         con = sqlite3.connect('encryption.db')
 
